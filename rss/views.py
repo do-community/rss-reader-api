@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rss.serializers import FeedSerializer, CategorySerializer
 from rss.models import RSSFeed, Category
 from django.forms.models import model_to_dict
@@ -13,10 +13,12 @@ import feedparser
 ################################################################################
 
 
-class get_feeds(APIView):
+class feeds_api(APIView):
     """
     This method returns a list of all the feeds currently subscribed to
     """
+
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
         categories = request.GET.get("category", None)
@@ -42,17 +44,16 @@ class get_feeds(APIView):
 
         return Response(feeds, 200)
 
-
-class create_feed(APIView):
-
-    permission_classes = (IsAuthenticated,)
-
     def post(self, request):
         params = {}
         status = 200
 
         feed = FeedSerializer(data=request.data)
-        categories = request.data.get("category").split(",")
+        categories = request.data.get("category", None)
+
+        if categories is not None:
+            categories = categories.split(",")
+
         category_objs = []
         for category in categories:
             try:
@@ -67,7 +68,6 @@ class create_feed(APIView):
                     },
                     400,
                 )
-        print(category_objs)
         if feed.is_valid() is True:
             feed_obj = feed.save()
             feed_obj.categories.set(category_objs)
@@ -77,10 +77,6 @@ class create_feed(APIView):
             status = 400
             params["errors"] = feed.errors
         return Response(params, status)
-
-
-class delete_feed(APIView):
-    permission_classes = (IsAuthenticated,)
 
     def delete(self, request, feed_id):
         params = {}
@@ -97,20 +93,18 @@ class delete_feed(APIView):
 
         return Response(params, status)
 
-
-class update_feed(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request):
+    def put(self, request):
         params = {}
         status = 200
         feed_id = request.data.get("id")
 
-        categories = request.data.get("category", None).split(",")
+        categories = request.data.get("category", None)
+        category_objs = []
+        if categories is not None:
+            categories = categories.split(",")
 
         if categories is not None:
             category_objs = []
-            print(categories)
             # If the user is trying to remove all categories and sends empty
             # quotes the splitting code above will make that [""]. So if we
             # see that we know not to look up categories.
@@ -145,24 +139,16 @@ class update_feed(APIView):
         return Response(params, status)
 
 
-################################################################################
-# Category API Methods                                                         #
-################################################################################
-
-
-class get_category(APIView):
+class categories_api(APIView):
     """
     This method returns a list of all the feeds currently subscribed to
     """
 
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
     def get(self, request):
         categories = [model_to_dict(x) for x in Category.objects.all()]
         return Response(categories, 200)
-
-
-class create_category(APIView):
-
-    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         params = {}
@@ -176,10 +162,6 @@ class create_category(APIView):
             status = 400
             params["errors"] = category.errors
         return Response(params, status)
-
-
-class delete_category(APIView):
-    permission_classes = (IsAuthenticated,)
 
     def delete(self, request, category_id):
         params = {}
@@ -196,11 +178,7 @@ class delete_category(APIView):
 
         return Response(params, status)
 
-
-class update_category(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request):
+    def put(self, request):
         params = {}
         status = 200
         category_id = request.data.get("id")
@@ -222,11 +200,6 @@ class update_category(APIView):
             status = 400
             params["errors"] = category.errors
         return Response(params, status)
-
-
-################################################################################
-# Article API Methods                                                          #
-################################################################################
 
 
 class get_articles(APIView):

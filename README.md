@@ -20,7 +20,7 @@ Below are all of the public endpoints currently available.
 without this you will receive a 404.
 
 
-### POST `/obtain-auth-token/`
+### POST `/login/`
 Retrieve a users API token
 
 *Parameters*
@@ -98,7 +98,7 @@ sensitive.
 ]
 ```
 
-### POST `/feeds/add/` - **Auth Required**
+### POST `/feeds/` - **Auth Required**
 Add an RSS feed. Articles from this feed will be aggregated into the others
 
 *Parameters*
@@ -111,7 +111,7 @@ single category or a list of categories spearated by a `,`
 
 *Example*
 
-`http POST https://example.api/feeds/add 'Authorization: Token '$TOKEN name="Mason Egger's Website" url="https://mason.dev/index.html" category="Tech,Python"`
+`http POST https://example.api/feeds/ 'Authorization: Token '$TOKEN name="Mason Egger's Website" url="https://mason.dev/index.html" category="Tech,Python"`
 
 *Returns 200*
 ```json
@@ -144,7 +144,7 @@ single category or a list of categories spearated by a `,`
 }
 ```
 
-### POST `/feeds/update/` - **Auth Required**
+### PUT `/feeds/` - **Auth Required**
 Update an RSS feed.
 
 *Parameters*
@@ -159,7 +159,7 @@ This can be a single category or a list of categories spearated by a `,`
 
 *Example*
 
-`http POST https://example.api/feeds/update 'Authorization: Token '$TOKEN id=16 name="Awesome Blog" category="Tech"`
+`http PUT https://example.api/feeds/ 'Authorization: Token '$TOKEN id=16 name="Awesome Blog" category="Tech"`
 
 *Returns*
 ```json
@@ -176,7 +176,7 @@ This can be a single category or a list of categories spearated by a `,`
 }
 ```
 
-### DELETE `/feeds/delete/<int:feed_id>` - **Auth Required**
+### DELETE `/feeds/<int:feed_id>` - **Auth Required**
 Delete an RSS feed. Articles from this feed will no longer appear.
 
 *URI Parameters*
@@ -185,7 +185,7 @@ Delete an RSS feed. Articles from this feed will no longer appear.
 
 *Example*
 
-`http DELETE http://localhost:8000/feeds/delete/<FEED_ID>/ 'Authorization: Token '$TOKEN`
+`http DELETE http://localhost:8000/feeds/<FEED_ID>/ 'Authorization: Token '$TOKEN`
 
 *Returns 200*
 ```json
@@ -223,7 +223,7 @@ None
 ]
 ```
 
-### POST `/category/add/` - **Auth Required**
+### POST `/categories/` - **Auth Required**
 Add a a category. RSS Feeds can be tagged with categories to aide with filtering.
 
 *Parameters*
@@ -233,7 +233,7 @@ Add a a category. RSS Feeds can be tagged with categories to aide with filtering
 
 *Example*
 
-`http POST https://example.api/category/add 'Authorization: Token '$TOKEN name="Sports"`
+`http POST https://example.api/categories/ 'Authorization: Token '$TOKEN name="Sports"`
 
 *Returns 200*
 ```json
@@ -254,7 +254,7 @@ Add a a category. RSS Feeds can be tagged with categories to aide with filtering
 }
 ```
 
-### POST `/category/update/` - **Auth Required**
+### PUT `/category/` - **Auth Required**
 Update a category.
 
 *Parameters*
@@ -265,7 +265,7 @@ Update a category.
 
 *Example*
 
-`http POST https://example.api/category/update 'Authorization: Token '$TOKEN id=3 name="Sportz"`
+`http PUT https://example.api/category/ 'Authorization: Token '$TOKEN id=3 name="Sportz"`
 
 *Returns 200*
 ```json
@@ -275,7 +275,7 @@ Update a category.
 }
 ```
 
-### DELETE `/category/delete/<int:category_id>` - **Auth Required**
+### DELETE `/category/<int:category_id>` - **Auth Required**
 Delete a category. RSS Feeds will no longer be associated with this category
 
 *URI Parameters*
@@ -284,7 +284,7 @@ Delete a category. RSS Feeds will no longer be associated with this category
 
 *Example*
 
-`http DELETE http://localhost:8000/category/delete/<CATEGORY_ID>/ 'Authorization: Token '$TOKEN`
+`http DELETE http://localhost:8000/category/<CATEGORY_ID>/ 'Authorization: Token '$TOKEN`
 
 *Returns 200*
 ```json

@@ -48,7 +48,9 @@ Fetch articles from your news sources.
 * `category` (optional) - filter the results based on your categories. This
 can be a single value or a comma separated list. Note that categories are case
 sensitive.
-* `count` (optional) - The total number of articles to fetch.
+* `count` (optional) - The total number of articles to fetch. Default set to 10
+* `feed` (optional) - The specific feed to get articles from. Use the feed id to
+specify.
 
 *Example*
 

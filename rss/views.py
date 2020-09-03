@@ -209,8 +209,9 @@ class get_articles(APIView):
 
     def get(self, request):
 
-        count = int(request.GET.get("count", 1))
+        count = int(request.GET.get("count", 10))
         categories = request.GET.get("category", None)
+        feed_id = categories = request.GET.get("feed", None)
 
         rss_feeds = []
 
@@ -225,6 +226,13 @@ class get_articles(APIView):
             rss_feeds = RSSFeed.objects.all()
 
         articles = []
+
+        if feed_id is not None:
+            try:
+                rss_feed = RSSFeed.objects.get(id=feed_id)
+                rss_feeds = [rss_feed]
+            except RSSFeed.DoesNotExist:
+                pass
 
         for feed in rss_feeds:
             if feed.is_visible is False:
@@ -241,7 +249,7 @@ class get_articles(APIView):
                     date = article.get("published", None)
                     if date is None:
                         date = article.get("updated", None)
-                article_data["date"] = parser.parse(date)
+                article_data["date"] = parser.parse(date, ignoretz=True)
                 article_data["summary"] = article.get("summary", None)
                 article_data["feed_name"] = feed.name
                 article_data["categories"] = categories

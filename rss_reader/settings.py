@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Third-Party apps
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
     # local
     "rss.apps.RssConfig",
 ]
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "rss_reader.urls"
@@ -154,3 +156,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]

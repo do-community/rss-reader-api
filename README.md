@@ -10,6 +10,48 @@ further and set categories for each feed and filter the articles based on
 category. Categories are not required, but add the ability to customize your
 feed even more.
 
+## Deployment
+Deploying the RSS Reader requires a few environment variables to be set.
+
+**Required Environment Variables**
+
+* `DJANGO_ALLOWED_HOSTS` - Django only allows access based on predefined hosts.
+Be sure to add your FQDN when ready for production. `localhost` is included by default
+
+*Database Env Vars*
+* `NAME` - Database name 
+* `USER` - Database user to auth with
+* `PASSWORD` - Database password to auth with
+* `HOST` - Database host
+* `PORT` - Database port
+
+Code that uses these env vars
+```python
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.environ.get("DB_NAME"),
+            "USER": os.environ.get("DB_USER"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+            "OPTIONS": {"sslmode": "require"},
+        }
+    }
+```
+**Optional/Development Environment Variables**
+* `DJANGO_SECRET_KEY` - If you don't provide a secret key then all cookies will
+be invalidated everytime the server reboots. If you don't set this one will be
+generated everytime you start the server
+* `DEVELOPMENT_MODE` - This determines whether or not to use a local sqlite db
+if True or a remote Postgres DB if False. Defaults to `False`
+* `DEBUG` - Set's Django into debug mode for more verbose error messaging. 
+Defaults to `False`.
+
+### Deploy to App Platform
+To deploy this API to App Platform visit the 
+[Deploy Spec GitHub Repo](https://github.com/do-community/rss-reader-app-platform-spec)
+
 ## API Spec
 All examples are using [`httpie`](https://httpie.org/). If you haven't checked 
 it out you should.

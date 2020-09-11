@@ -30,8 +30,6 @@ DEBUG = os.getenv("DEBUG", False) == "True"
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
-FORCE_SCRIPT_NAME="/api"
-
 # Application definition
 
 INSTALLED_APPS = [

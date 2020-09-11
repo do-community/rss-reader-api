@@ -53,6 +53,8 @@ class feeds_api(APIView):
 
         if categories is not None:
             categories = categories.split(",")
+        else:
+            categories = []
 
         category_objs = []
         for category in categories:

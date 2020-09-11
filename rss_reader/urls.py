@@ -18,9 +18,9 @@ from django.urls import path, include
 from rest_framework.authtoken import views as authviews
 from rest_framework.schemas import get_schema_view
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include([path("admin/", admin.site.urls)])),
     path("", include("rss.urls")),
     path(
         "login",

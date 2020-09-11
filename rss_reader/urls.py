@@ -19,14 +19,8 @@ from rest_framework.authtoken import views as authviews
 from rest_framework.schemas import get_schema_view
 import os
 
-app_plat_route = os.getenv("APP_PLAT_ROUTE", None)
-if app_plat_route is not None:
-    admin_route = "{0}/admin/".format(app_plat_route)
-else:
-    admin_route = "admin/"
-
 urlpatterns = [
-    path(admin_route, admin.site.urls),
+    path("admin", admin.site.urls),
     path("", include("rss.urls")),
     path(
         "login",

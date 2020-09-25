@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 app_route = os.getenv("APP_PLAT_ROUTE", None);
 if app_route is not None:
-    FORCE_SCRIPT_NAME = "/{0}".format(app_route)
+    FORCE_SCRIPT_NAME = "/{0}".format(os.path.relpath(app_route, '/'))
     
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/

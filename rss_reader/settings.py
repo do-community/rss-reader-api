@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from pathlib import Path
 import os
+from urllib.parse import urlparse
 
 
 from django.core.management.utils import get_random_secret_key
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 app_route = os.getenv("APP_PLAT_ROUTE", None);
 if app_route is not None:
-    FORCE_SCRIPT_NAME = "/{0}".format(app_route)
+    FORCE_SCRIPT_NAME = "/{0}".format(os.path.relpath(app_route, '/'))
     
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -101,6 +102,19 @@ if os.environ.get("DEVELOPMENT_MODE", "False") == "True":
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
+elif os.environ.get("DATABASE_URL", "") != "":
+    r = urlparse(os.environ.get("DATABASE_URL"))
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.path.relpath(r.path, '/'),
+            "USER": r.username,
+            "PASSWORD": r.password,
+            "HOST": r.hostname,
+            "PORT": r.port,
+            "OPTIONS": {"sslmode": "require"},
         }
     }
 else:

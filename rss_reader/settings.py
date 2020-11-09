@@ -168,7 +168,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 if app_route is not None:
-    STATIC_URL = "/{0}/static/".format(app_route)
+    STATIC_URL = "static/"
 else:
     STATIC_URL = "/static/"
 

@@ -172,14 +172,13 @@ app_route = os.getenv("APP_PLAT_ROUTE", None);
 if app_route is not None:
     FORCE_SCRIPT_NAME = "/{0}".format(os.path.relpath(app_route, '/'))
 
-# When deploying not at a subdirectory change this back to "/static/"
 
 # To make static files work, you need to deploy this app also as a static
 # site so the collect static can work. Then you'll change the build command
 # to `mv staticfiles _static` so they can be served and set the route for that 
 # static site to `/static`. now your static files will be served separately.
 
-STATIC_URL = "/static/"
+STATIC_URL = "/api-static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 

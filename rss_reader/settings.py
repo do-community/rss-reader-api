@@ -167,11 +167,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-if app_route is not None:
-    STATIC_URL = "static/"
-else:
-    STATIC_URL = "/static/"
 
+app_route = os.getenv("APP_PLAT_ROUTE", None);
+if app_route is not None:
+    FORCE_SCRIPT_NAME = "/{0}".format(os.path.relpath(app_route, '/'))
+
+# When deploying not at a subdirectory change this back to "/static/"
+STATIC_URL = "static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 

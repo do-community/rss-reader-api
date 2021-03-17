@@ -20,9 +20,9 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-app_route = os.getenv("APP_PLAT_ROUTE", None);
-if app_route is not None:
-    FORCE_SCRIPT_NAME = "/{0}".format(os.path.relpath(app_route, '/'))
+#app_route = os.getenv("APP_PLAT_ROUTE", None);
+#if app_route is not None:
+#    FORCE_SCRIPT_NAME = "/{0}".format(os.path.relpath(app_route, '/'))
     
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -184,7 +184,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

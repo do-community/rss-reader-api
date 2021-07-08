@@ -17,8 +17,17 @@ Deploying the RSS Reader requires a few environment variables to be set.
 
 * `DJANGO_ALLOWED_HOSTS` - Django only allows access based on predefined hosts.
 Be sure to add your FQDN when ready for production. `localhost` is included by default
+On App Platform set to `${APP_DOMAIN}`
+
+* APP_PLAT_ROUTE = <URL_FOR_YOUR_API> ex: `/api`
 
 *Database Env Vars*
+Can also use Database URL on App Platform 
+
+`DATABASE_URL = ${db.DATABASE_URL}`
+
+or use this 
+
 * `NAME` - Database name 
 * `USER` - Database user to auth with
 * `PASSWORD` - Database password to auth with
